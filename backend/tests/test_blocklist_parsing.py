@@ -1,4 +1,4 @@
-from api.index import is_blocked, parse_hosts
+from app.domains.blocklist.parsing import is_blocked, parse_hosts
 
 HOSTS_SAMPLE = """
 # comment line

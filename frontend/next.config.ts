@@ -4,15 +4,17 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
-  // Python API (api/index.py): local uvicorn in dev, Vercel Python function in production
+  // Python API (../backend): local uvicorn in dev, the shieldnest-api Vercel project in production
   async rewrites() {
+    const apiUrl =
+      process.env.SHIELDNEST_API_URL ??
+      (process.env.NODE_ENV === "development"
+        ? "http://127.0.0.1:8000"
+        : "https://shieldnest-api.vercel.app");
     return [
       {
         source: "/api/py/:path*",
-        destination:
-          process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/api/py/:path*"
-            : "/api/",
+        destination: `${apiUrl}/api/py/:path*`,
       },
     ];
   },

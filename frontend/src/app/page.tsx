@@ -40,9 +40,9 @@ const features = [
   },
   {
     icon: KeyRound,
-    title: "Access guard",
+    title: "Phishing protection",
     description:
-      "Alerts you to new sign-ins, apps with risky permissions and third parties that try to reach your email or accounts.",
+      "Blocks fake login pages that try to steal your email and account passwords, so outsiders can't get into your accounts.",
   },
   {
     icon: EyeOff,
@@ -58,9 +58,9 @@ const features = [
   },
   {
     icon: ShieldCheck,
-    title: "One account, every device",
+    title: "Phone and PC",
     description:
-      "Protect your phone and your PC from one account, and see what was blocked on each device in one place.",
+      "The same protection on Android and Windows, with a live list of what was blocked. Mac and iPhone are coming soon.",
   },
 ];
 
@@ -73,7 +73,7 @@ const steps = [
 const faqs = [
   {
     q: "How does ShieldNest block ads?",
-    a: "ShieldNest checks every web address your device asks for against blocklists of ad, tracker and malware domains. Matching requests are blocked before anything downloads. On Android this works through a local VPN that never leaves your phone.",
+    a: "ShieldNest checks every web address your device asks for against blocklists of ad, tracker and malware domains. Matching requests are blocked before anything downloads. On Android this works through a local VPN that never leaves your phone. On Windows, ShieldNest runs a filter on your PC and puts your network settings back when you turn it off.",
   },
   {
     q: "Is ShieldNest an antivirus?",
@@ -81,7 +81,7 @@ const faqs = [
   },
   {
     q: "Does it work on iPhone?",
-    a: "Partly. Apple doesn't let apps scan other apps or block ads outside Safari. On iPhone, ShieldNest blocks ads in Safari and filters DNS to block malicious sites.",
+    a: "The iPhone app is coming soon. Apple doesn't let apps scan other apps or block ads outside Safari, so on iPhone ShieldNest will block ads in Safari and filter DNS to block malicious sites.",
   },
   {
     q: "Do you see my browsing history?",
@@ -99,7 +99,7 @@ export default function Home() {
           <div>
             <Badge variant="outline" className="mb-5">
               <ShieldCheck />
-              For Android, Windows, macOS & iPhone
+              Now on Android & Windows
             </Badge>
             <h1 className="text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
               A safe nest for <span className="text-primary">every device</span> you own.
@@ -210,7 +210,7 @@ export default function Home() {
       <section className="border-t border-border">
         <div className="mx-auto max-w-4xl px-4 py-20 text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to protect your devices?</h2>
-          <p className="mt-4 text-muted-foreground">ShieldNest is free to download on every platform.</p>
+          <p className="mt-4 text-muted-foreground">ShieldNest is free to download for Android and Windows.</p>
           <Link href="/download" className={buttonVariants({ size: "lg", className: "mt-8 h-11 px-6 text-base" })}>
             <Download />
             Get ShieldNest

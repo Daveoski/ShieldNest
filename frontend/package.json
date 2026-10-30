@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "api": "python -m uvicorn api.index:app --reload --port 8000"
+    "lint": "eslint"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

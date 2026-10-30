@@ -1,0 +1,3 @@
+from shieldnest_windows.app import main
+
+main()
