@@ -1,0 +1,26 @@
+Copyright (c) 2026 ShieldNest. All rights reserved.
+
+This repository and everything in it, including the source code, designs,
+graphics, text and build scripts for the ShieldNest website, API, Android
+app and Windows app, are the proprietary property of the copyright holder.
+
+The source is visible for reference only. No licence is granted to anyone
+to copy, modify, merge, publish, distribute, sublicense, sell, host, deploy
+or create derivative works from any part of it, in whole or in part, for any
+purpose, without the copyright holder's prior written permission.
+
+Viewing this repository on GitHub does not grant any of these rights.
+Forking it on GitHub is permitted only to the extent required by the GitHub
+Terms of Service, and a fork grants no further rights to use the code.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+Third-party components keep their own licences. The blocklist data served
+by the API comes from the StevenBlack/hosts and malware-filter projects,
+which remain under their original licences.
+
+For permission requests, contact the repository owner on GitHub: Daveoski.
