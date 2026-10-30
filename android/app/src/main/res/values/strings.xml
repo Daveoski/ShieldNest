@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShieldNest</string>
+    <string name="notification_channel">Protection status</string>
+    <string name="notification_title">ShieldNest is protecting you</string>
+    <string name="notification_text">Blocking ads, trackers and malware sites</string>
+    <string name="action_turn_off">Turn off</string>
+</resources>
