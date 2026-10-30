@@ -7,6 +7,11 @@ class BlocklistResponse(BaseModel):
     domains: list[str]
 
 
+class StatsResponse(BaseModel):
+    categories: dict[str, int]
+    total: int
+
+
 class CheckResponse(BaseModel):
     domain: str
     blocked: bool

@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { Laptop, Monitor, Smartphone, TabletSmartphone } from "lucide-react";
 
-export const APP_VERSION = "0.1.0";
+export const APP_VERSION = "0.2.0";
 
 export type Platform = {
   id: "android" | "windows" | "macos" | "ios";
@@ -29,6 +29,7 @@ export const platforms: Platform[] = [
       "Blocks ads and trackers in every app and browser",
       "Blocks malware and phishing sites",
       "Shows what was blocked, live",
+      "Optional sign-in with Google or email",
     ],
     installSteps: [
       "Open the downloaded file.",
@@ -50,6 +51,7 @@ export const platforms: Platform[] = [
       "Blocks ads and trackers across the whole PC",
       "Blocks malware, ransomware and phishing domains",
       "Puts your network settings back when turned off",
+      "Optional sign-in with Google or email",
     ],
     installSteps: [
       "Open the downloaded file. No installation is needed.",

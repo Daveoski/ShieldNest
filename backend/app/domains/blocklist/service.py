@@ -51,6 +51,12 @@ def load(category: Category) -> frozenset[str]:
     return load_category(category.value)
 
 
+def stats() -> tuple[dict[str, int], int]:
+    """Domain count per category, plus the de-duplicated total."""
+    lists = {name: load_category(name) for name in SOURCES}
+    return {name: len(domains) for name, domains in lists.items()}, len(frozenset().union(*lists.values()))
+
+
 def check(domain: str) -> tuple[str, str] | None:
     """Return (category, matching entry) for the first list that blocks the domain."""
     for name in SOURCES:

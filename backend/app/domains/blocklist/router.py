@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Query, Response
 from fastapi.responses import PlainTextResponse
 
 from app.domains.blocklist import service
-from app.domains.blocklist.schemas import BlocklistResponse, CheckResponse
+from app.domains.blocklist.schemas import BlocklistResponse, CheckResponse, StatsResponse
 from app.domains.blocklist.sources import Category
 
 router = APIRouter(tags=["blocklist"])
@@ -31,6 +31,16 @@ def blocklist(
         return PlainTextResponse("\n".join(domains), headers={"Cache-Control": CDN_CACHE_HEADER})
     response.headers["Cache-Control"] = CDN_CACHE_HEADER
     return BlocklistResponse(category=category.value, count=len(domains), domains=domains)
+
+
+@router.get("/stats", response_model=StatsResponse)
+def stats(response: Response) -> StatsResponse:
+    try:
+        categories, total = service.stats()
+    except service.UpstreamUnavailable as e:
+        raise HTTPException(status_code=502, detail=str(e))
+    response.headers["Cache-Control"] = CDN_CACHE_HEADER
+    return StatsResponse(categories=categories, total=total)
 
 
 @router.get("/check", response_model=CheckResponse, response_model_exclude_none=True)

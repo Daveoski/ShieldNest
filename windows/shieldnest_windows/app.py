@@ -5,11 +5,12 @@ import ctypes
 import sys
 import threading
 import tkinter as tk
+import webbrowser
 from collections import deque
 from pathlib import Path
 from tkinter import messagebox
 
-from shieldnest_windows import __version__, system_dns
+from shieldnest_windows import __version__, account, system_dns
 from shieldnest_windows.blocklist import Blocklist
 from shieldnest_windows.proxy import DnsProxy
 
@@ -78,7 +79,17 @@ class App:
             root.iconbitmap(default=str(icon))
         root.protocol("WM_DELETE_WINDOW", self.on_close)
 
-        tk.Label(root, text="ShieldNest", bg=BG, fg=TEXT, font=(FONT, 16, "bold")).pack(pady=(20, 10))
+        header = tk.Frame(root, bg=BG)
+        header.pack(fill="x", padx=20, pady=(16, 6))
+        tk.Label(header, text="ShieldNest", bg=BG, fg=TEXT, font=(FONT, 16, "bold")).pack(side="left")
+        self.account_button = tk.Button(
+            header, bg=BG, fg=PRIMARY, activebackground=SURFACE_2, activeforeground=PRIMARY,
+            relief="flat", bd=0, cursor="hand2", font=(FONT, 10, "bold"), command=self.account_clicked,
+        )
+        self.account_button.pack(side="right")
+        self.signing_in = False
+        self.user = account.current_user()
+        self.render_account()
 
         self.canvas = tk.Canvas(root, width=190, height=190, bg=BG, highlightthickness=0, cursor="hand2")
         self.canvas.pack(pady=10)
@@ -110,6 +121,55 @@ class App:
 
         self.render()
         self.poll()
+
+    # --- Optional account sign-in (device flow: approve a code on the website) ---
+
+    def render_account(self) -> None:
+        if self.signing_in:
+            text = "Cancel sign-in"
+        elif self.user:
+            text = f"{(self.user.name or self.user.email).split()[0]} · Sign out"
+        else:
+            text = "Sign in"
+        self.account_button.config(text=text)
+
+    def account_clicked(self) -> None:
+        if self.signing_in:
+            self.signing_in = False  # the polling thread notices and stops
+            self.message.config(text="")
+        elif self.user:
+            if messagebox.askyesno("ShieldNest", f"Sign out of {self.user.email}?"):
+                threading.Thread(target=account.sign_out, daemon=True).start()
+                self.user = None
+        else:
+            self.signing_in = True
+            self.message.config(text="Opening your browser…", fg=MUTED)
+            threading.Thread(target=self._sign_in, daemon=True).start()
+        self.render_account()
+
+    def _sign_in(self) -> None:
+        try:
+            code = account.request_code()
+            self.root.after(0, self.message.config, {
+                "text": f"Approve code {code.display_code} in your browser.\n"
+                        "You can sign in with Google or email there.",
+                "fg": PRIMARY,
+            })
+            webbrowser.open(code.verification_url)
+            user = account.await_approval(code, cancelled=lambda: not self.signing_in)
+            self.root.after(0, self._signed_in, user, None)
+        except account.SignInError as e:
+            self.root.after(0, self._signed_in, None, str(e))
+
+    def _signed_in(self, user, error: str | None) -> None:
+        cancelled = not self.signing_in
+        self.signing_in = False
+        if user:
+            self.user = user
+            self.message.config(text=f"Signed in as {user.email}", fg=PRIMARY)
+        elif not cancelled:
+            self.message.config(text=error, fg=ERROR)
+        self.render_account()
 
     def _stat_card(self, parent: tk.Frame, label: str) -> tk.Label:
         card = tk.Frame(parent, bg=SURFACE, padx=14, pady=10)
@@ -181,7 +241,7 @@ class App:
     def _finished(self, error: str | None) -> None:
         self.busy = False
         warning = self.protection.blocklist.warning
-        self.message.config(text=error or warning or "")
+        self.message.config(text=error or warning or "", fg=ERROR)
         self.render()
 
     def on_close(self) -> None:

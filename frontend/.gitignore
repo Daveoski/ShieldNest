@@ -42,3 +42,4 @@ next-env.d.ts
 
 # app builds copied in by scripts/publish-downloads.ps1
 /public/downloads/
+.env*

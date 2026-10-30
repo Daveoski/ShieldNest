@@ -11,6 +11,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import com.shieldnest.app.data.Account
 import com.shieldnest.app.data.ShieldState
 import com.shieldnest.app.ui.HomeScreen
 import com.shieldnest.app.ui.ShieldNestTheme
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Account.restore(this)
         enableEdgeToEdge()
         setContent {
             ShieldNestTheme {

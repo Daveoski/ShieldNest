@@ -36,6 +36,13 @@ def test_blocklist_single_category_as_text(client):
     assert "s-maxage" in response.headers["cache-control"]
 
 
+def test_stats_counts_each_category(client):
+    assert client.get("/api/py/stats").json() == {
+        "categories": {"ads": 2, "malware": 1, "phishing": 1},
+        "total": 4,
+    }
+
+
 def test_check_blocked_and_allowed(client):
     assert client.get("/api/py/check", params={"domain": "stats.doubleclick.net"}).json() == {
         "domain": "stats.doubleclick.net",
