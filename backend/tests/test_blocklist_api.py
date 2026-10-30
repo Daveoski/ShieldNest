@@ -50,6 +50,7 @@ def test_check_blocked_and_allowed(client):
         "category": "ads",
         "match": "doubleclick.net",
     }
+    assert "s-maxage" in client.get("/api/py/check", params={"domain": "github.com"}).headers["cache-control"]
     assert client.get("/api/py/check", params={"domain": "github.com"}).json() == {
         "domain": "github.com",
         "blocked": False,

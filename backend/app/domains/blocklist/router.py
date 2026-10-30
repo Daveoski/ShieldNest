@@ -44,12 +44,14 @@ def stats(response: Response) -> StatsResponse:
 
 
 @router.get("/check", response_model=CheckResponse, response_model_exclude_none=True)
-def check(domain: str = Query(..., min_length=3, max_length=253)) -> CheckResponse:
+def check(response: Response, domain: str = Query(..., min_length=3, max_length=253)) -> CheckResponse:
     try:
         result = service.check(domain)
     except service.UpstreamUnavailable as e:
         raise HTTPException(status_code=502, detail=str(e))
 
+    # Cache each domain's answer at the CDN so repeated or flooded lookups never reach the function
+    response.headers["Cache-Control"] = CDN_CACHE_HEADER
     if result:
         category, match = result
         return CheckResponse(domain=domain, blocked=True, category=category, match=match)

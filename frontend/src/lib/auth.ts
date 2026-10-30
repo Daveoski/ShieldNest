@@ -27,6 +27,19 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: 8,
   },
+  // Counted in Postgres so limits hold across every serverless instance (in-memory counters don't).
+  // The Vercel firewall separately blocks an IP after 10 sign-in/sign-up attempts a minute.
+  rateLimit: {
+    enabled: true,
+    storage: "database",
+    window: 60,
+    max: 100,
+    customRules: {
+      "/sign-in/email": { window: 60, max: 5 },
+      "/sign-up/email": { window: 60, max: 5 },
+      "/device/code": { window: 60, max: 10 },
+    },
+  },
   socialProviders: googleEnabled
     ? { google: { clientId: googleClientId!, clientSecret: googleClientSecret! } }
     : {},
